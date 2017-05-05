@@ -8,6 +8,7 @@ pub struct Header {
     /// The type of JWS: it can only be "JWT" here
     ///
     /// Defined in [RFC7515#4.1.9](https://tools.ietf.org/html/rfc7515#section-4.1.9).
+    #[serde(default = "default_typ")]
     typ: String,
     /// The algorithm used
     ///
@@ -44,7 +45,7 @@ impl Header {
     /// Returns a JWT header with the algorithm given
     pub fn new(algorithm: Algorithm) -> Header {
         Header {
-            typ: "JWT".to_string(),
+            typ: default_typ(),
             alg: algorithm,
             cty: None,
             jku: None,
@@ -60,4 +61,8 @@ impl Default for Header {
     fn default() -> Self {
         Header::new(Algorithm::default())
     }
+}
+
+fn default_typ() -> String {
+    "JWT".to_string()
 }
